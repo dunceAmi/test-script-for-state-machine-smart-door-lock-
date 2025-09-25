@@ -1,7 +1,7 @@
 class DoorLockFSM:
     def __init__(self):
         self.state = "LOCKED"   # initial state
-        self.password = "1234"  # default password
+        self.password = "1234"  # password
 
     def on_event(self, event, input_password=None, new_password=None):
         """Handles events and transitions between states."""
@@ -18,7 +18,7 @@ class DoorLockFSM:
             if event == "reset_key":
                 self.state = "RESETTING"
             else:
-                # any other action relocks
+                
                 self.state = "LOCKED"
 
         elif self.state == "RESETTING":
@@ -29,26 +29,24 @@ class DoorLockFSM:
         return self.state
 
 
-# --------------------------
-# Test Script
-# --------------------------
 if __name__ == "__main__":
     fsm = DoorLockFSM()
 
     # 1. Try wrong password
-    print("Event: Wrong Password ->", fsm.on_event("wrong_password", input_password="0000"))
+    print("Event: Wrong Password ", fsm.on_event("wrong_password", input_password="0000"))
 
     # 2. Try correct password
-    print("Event: Correct Password ->", fsm.on_event("correct_password", input_password="1234"))
+    print("Event: Correct Password ", fsm.on_event("correct_password", input_password="1234"))
 
     # 3. Reset password using security key
-    print("Event: Reset Key ->", fsm.on_event("reset_key"))
+    print("Event: Reset Key ", fsm.on_event("reset_key"))
 
     # 4. Set new password
-    print("Event: New Password Set ->", fsm.on_event("new_password_set", new_password="5678"))
+    print("Event: New Password Set ", fsm.on_event("new_password_set", new_password="5678"))
 
-    # 5. Try old password (should fail)
-    print("Event: Old Password ->", fsm.on_event("wrong_password", input_password="1234"))
+    # 5. Try old password (fail)
+    print("Event: Old Password ", fsm.on_event("wrong_password", input_password="1234"))
 
-    # 6. Try new password (should unlock)
-    print("Event: Correct New Password ->", fsm.on_event("correct_password", input_password="5678"))
+    # 6. Try new password
+    print("Event: Correct New Password ", fsm.on_event("correct_password", input_password="5678"))
+
